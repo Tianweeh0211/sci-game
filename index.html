@@ -1278,6 +1278,102 @@ const statNames = {
   integrity: "科研诚信"
 };
 
+const projectBranchOptions = {
+  tumorImmune: [
+    { label: "外泌体介导的巨噬细胞重编程", hint: "机制更前沿，但分离鉴定和 rescue 链条更难。", change: { novelty: 6, data: -3, energy: -4 }, branch: "外泌体机制" },
+    { label: "代谢重塑影响免疫极化", hint: "故事线完整，检测项目和机制验证都更重。", change: { novelty: 5, data: 2, energy: -5 }, branch: "代谢重塑" },
+    { label: "临床样本验证免疫标志物", hint: "转化意义更强，但样本和伦理进度会限制推进。", change: { data: 5, progress: -5, mentor: 2 }, branch: "临床样本验证" }
+  ],
+  neuroInflammation: [
+    { label: "小胶质细胞焦亡通路", hint: "机制清晰，但抗体和图像验证压力较大。", change: { novelty: 5, data: 1, energy: -4 }, branch: "焦亡通路" },
+    { label: "神经元-小胶质细胞互作", hint: "故事更完整，但共培养和因果验证更难。", change: { novelty: 6, data: -2, progress: -3 }, branch: "细胞互作" },
+    { label: "药物干预神经炎症", hint: "应用价值更明显，药物剂量和毒性窗口要做扎实。", change: { novelty: 3, data: 4, energy: -3 }, branch: "药物干预" }
+  ],
+  microbiome: [
+    { label: "短链脂肪酸影响宿主代谢", hint: "验证路径相对明确，但统计和代谢检测都不能松。", change: { data: 4, novelty: 3, energy: -3 }, branch: "短链脂肪酸" },
+    { label: "特定菌株定植实验", hint: "因果证据更强，动物实验周期明显拉长。", change: { novelty: 5, data: 3, progress: -6 }, branch: "菌株定植" },
+    { label: "多组学整合找关键通路", hint: "图会很多，写作和解释压力也会很多。", change: { novelty: 6, writing: 3, data: -3 }, branch: "多组学整合" }
+  ],
+  crisprScreen: [
+    { label: "全基因组筛选后聚焦单个 hit", hint: "上限高，但验证链条很长。", change: { novelty: 7, progress: -5, energy: -4 }, branch: "单基因机制" },
+    { label: "小规模靶向文库筛选", hint: "更稳更快，创新性略收敛。", change: { data: 5, progress: 3, novelty: -2 }, branch: "靶向文库" },
+    { label: "药物耐受相关基因网络", hint: "机制和转化兼顾，但数据解释更复杂。", change: { novelty: 5, writing: 2, data: -2 }, branch: "耐药网络" }
+  ],
+  organoidDrug: [
+    { label: "患者来源类器官药敏预测", hint: "转化价值强，对样本和培养成功率依赖高。", change: { novelty: 5, data: 3, progress: -5 }, branch: "PDO 药敏" },
+    { label: "耐药类器官模型构建", hint: "故事完整，但周期长、失败成本高。", change: { novelty: 6, progress: -6, energy: -4 }, branch: "耐药模型" },
+    { label: "联合用药协同机制", hint: "实验组合多，统计和图表压力会上升。", change: { novelty: 4, data: 2, energy: -5 }, branch: "联合用药" }
+  ],
+  plantStress: [
+    { label: "转录因子直接靶基因验证", hint: "机制扎实，实验周期可控。", change: { data: 5, novelty: 3, energy: -3 }, branch: "靶基因验证" },
+    { label: "激素信号与盐胁迫交叉", hint: "故事更丰富，但变量更多。", change: { novelty: 5, data: -1, writing: 2 }, branch: "激素交叉" },
+    { label: "突变体和过表达材料比较", hint: "证据更稳，材料准备会拖慢进度。", change: { data: 6, progress: -5, energy: -2 }, branch: "遗传材料比较" }
+  ],
+  singleCellAtlas: [
+    { label: "关键细胞群命运转换", hint: "故事更聚焦，需要实验验证。", change: { novelty: 5, writing: 3, data: -2 }, branch: "细胞命运" },
+    { label: "配体-受体互作机制", hint: "图谱能落到机制，但验证实验压力上升。", change: { novelty: 6, data: -1, energy: -4 }, branch: "细胞通讯" },
+    { label: "疾病分型和标志物发现", hint: "转化表达更顺，但临床验证更重要。", change: { data: 3, writing: 4, progress: -3 }, branch: "疾病分型" }
+  ],
+  circadianMetabolism: [
+    { label: "肝脏节律基因调控脂代谢", hint: "机制集中，取样节奏很折磨人。", change: { novelty: 4, data: 4, energy: -5 }, branch: "肝脏节律" },
+    { label: "进食时间改变代谢表型", hint: "问题有趣，但动物管理和时间点要求高。", change: { novelty: 5, data: 2, energy: -6 }, branch: "进食时间" },
+    { label: "代谢组学寻找节律性代谢物", hint: "发现空间大，分析和验证压力也大。", change: { novelty: 6, writing: 3, data: -2 }, branch: "节律代谢组" }
+  ],
+  selfDesigned: [
+    { label: "先收缩成一个可验证假设", hint: "更容易毕业，牺牲一点想象空间。", change: { data: 6, writing: 3, novelty: -3, mind: 3 }, branch: "收缩假设" },
+    { label: "保留探索性，先做两条备选路线", hint: "可能有惊喜，也可能两边都不够深。", change: { novelty: 6, luck: 2, data: -4, energy: -4 }, branch: "双路线探索" },
+    { label: "找合作方补齐关键技术", hint: "可行性提高，但沟通和排期更复杂。", change: { mentor: 5, data: 3, progress: -3 }, branch: "合作补技术" }
+  ]
+};
+
+const secondRoundProfiles = {
+  tumorImmune: {
+    text: "第一轮结果有了雏形，但免疫机制还没完全闭环。你需要在体内验证、阻断实验和临床样本之间做取舍。",
+    change: { novelty: 2, data: -1, energy: -2 },
+    choice: { label: "做阻断/敲低后的 rescue 验证", hint: "机制链更硬，但二轮实验压力很大。", change: { novelty: 6, data: 8, energy: -9, mind: -4 } }
+  },
+  neuroInflammation: {
+    text: "图像和炎症指标逐渐稳定，但审稿人很可能追问细胞互作和因果关系。二轮实验决定这个故事能不能从相关性走向机制。",
+    change: { data: 1, energy: -2 },
+    choice: { label: "增加共培养和通路抑制验证", hint: "因果链更清楚，但实验量明显增加。", change: { novelty: 5, data: 7, energy: -8, writing: 2 } }
+  },
+  microbiome: {
+    text: "菌群差异已经能画出漂亮图，但你知道光有差异菌还不够。二轮实验要回答：它到底是不是原因？",
+    change: { writing: 2, data: -1 },
+    choice: { label: "做菌株/代谢物回补实验", hint: "因果证据更强，周期和成本上升。", change: { novelty: 6, data: 8, progress: -5, energy: -6 } }
+  },
+  crisprScreen: {
+    text: "筛选结果给了你一串候选基因。二轮实验的关键，是把列表变成一个真正能讲清楚的机制。",
+    change: { novelty: 3, data: -2 },
+    choice: { label: "逐个验证 hit 并补机制实验", hint: "文章上限提高，但很容易被实验量吞没。", change: { novelty: 7, data: 7, progress: -6, energy: -8 } }
+  },
+  organoidDrug: {
+    text: "药敏曲线逐渐成形，但类器官批次差异仍然存在。二轮实验要把药效、形态和耐药标志物连起来。",
+    change: { data: 1, energy: -2 },
+    choice: { label: "补做耐药标志物和联合用药验证", hint: "转化故事更完整，但资源消耗很明显。", change: { novelty: 5, data: 8, progress: -4, energy: -8 } }
+  },
+  plantStress: {
+    text: "植物表型很稳，但机制还需要往下挖。二轮实验要决定你是做一篇稳健文章，还是冲更完整的调控网络。",
+    change: { data: 2 },
+    choice: { label: "补做 ChIP/qPCR 或启动子验证", hint: "机制证据更强，周期拉长。", change: { novelty: 5, data: 7, progress: -4, energy: -5 } }
+  },
+  singleCellAtlas: {
+    text: "单细胞图谱已经很丰富，但图谱型文章最怕只停留在描述。你需要用二轮实验把一个细胞互作落到现实里。",
+    change: { writing: 3, data: -1 },
+    choice: { label: "验证关键细胞群和配体-受体互作", hint: "从图谱走向机制，返修时更有底气。", change: { novelty: 7, data: 7, energy: -8, writing: 3 } }
+  },
+  circadianMetabolism: {
+    text: "时间曲线终于有了形状，但节律课题最怕点不够、峰不稳。二轮实验要把时间维度补完整。",
+    change: { data: 2, energy: -3 },
+    choice: { label: "补完整昼夜时间点和核心指标", hint: "曲线更可信，身体更怀疑人生。", change: { data: 9, novelty: 4, energy: -10, mind: -4 } }
+  },
+  selfDesigned: {
+    text: "你的自拟课题终于出现一点稳定信号。现在需要决定：把它做成能投稿的故事，还是继续追更大的问题。",
+    change: { novelty: 2, data: -1, mentor: -1 },
+    choice: { label: "围绕核心假设做第二轮验证", hint: "可发表性提高，探索自由度下降。", change: { data: 8, writing: 5, novelty: -2, mentor: 3, energy: -6 } }
+  }
+};
+
 const randomEvents = [
   {
     title: "细胞污染警报",
@@ -1523,7 +1619,7 @@ const nodes = {
   },
   personality: {
     stage: "性格选择",
-    day: 3,
+    day: 14,
     title: "你逐渐意识到自己的科研性格",
     text: "入学几天后，你对研究生生活有了第一层理解：同样是做科研，有人靠体力推进，有人靠逻辑拆解，有人靠合作沟通，也有人靠灵感和一点点玄学。你更像哪一种？",
     choices: [
@@ -1573,14 +1669,14 @@ const nodes = {
   },
   mentor: {
     stage: "选导师",
-    day: 7,
+    day: 30,
     title: "构建你的导师画像",
     text: "真正影响研究生体验的，不只是导师名气，还有 push 程度、资源条件、指导频率和性格风格。你需要选择一个最像未来课题组环境的导师画像。",
     mentorBuilder: true
   },
   direction: {
     stage: "定方向",
-    day: 21,
+    day: 60,
     title: "确定研究方向和具体课题",
     text: "导师让你在组里的几个方向中选一个切入点。方向决定你接下来每天面对的是细胞、动物、植物、菌群、组学数据，还是凌晨三点的取样表。",
     choices: [
@@ -1589,69 +1685,76 @@ const nodes = {
         hint: projectProfiles.tumorImmune.summary,
         change: projectProfiles.tumorImmune.change,
         project: "tumorImmune",
-        next: "daily"
+        next: "projectBranch"
       },
       {
         label: projectProfiles.neuroInflammation.name,
         hint: projectProfiles.neuroInflammation.summary,
         change: projectProfiles.neuroInflammation.change,
         project: "neuroInflammation",
-        next: "daily"
+        next: "projectBranch"
       },
       {
         label: projectProfiles.microbiome.name,
         hint: projectProfiles.microbiome.summary,
         change: projectProfiles.microbiome.change,
         project: "microbiome",
-        next: "daily"
+        next: "projectBranch"
       },
       {
         label: projectProfiles.crisprScreen.name,
         hint: projectProfiles.crisprScreen.summary,
         change: projectProfiles.crisprScreen.change,
         project: "crisprScreen",
-        next: "daily"
+        next: "projectBranch"
       },
       {
         label: projectProfiles.organoidDrug.name,
         hint: projectProfiles.organoidDrug.summary,
         change: projectProfiles.organoidDrug.change,
         project: "organoidDrug",
-        next: "daily"
+        next: "projectBranch"
       },
       {
         label: projectProfiles.plantStress.name,
         hint: projectProfiles.plantStress.summary,
         change: projectProfiles.plantStress.change,
         project: "plantStress",
-        next: "daily"
+        next: "projectBranch"
       },
       {
         label: projectProfiles.singleCellAtlas.name,
         hint: projectProfiles.singleCellAtlas.summary,
         change: projectProfiles.singleCellAtlas.change,
         project: "singleCellAtlas",
-        next: "daily"
+        next: "projectBranch"
       },
       {
         label: projectProfiles.circadianMetabolism.name,
         hint: projectProfiles.circadianMetabolism.summary,
         change: projectProfiles.circadianMetabolism.change,
         project: "circadianMetabolism",
-        next: "daily"
+        next: "projectBranch"
       },
       {
         label: projectProfiles.selfDesigned.name,
         hint: projectProfiles.selfDesigned.summary,
         change: projectProfiles.selfDesigned.change,
         project: "selfDesigned",
-        next: "daily"
+        next: "projectBranch"
       }
     ]
   },
+  projectBranch: {
+    stage: "课题分支",
+    day: 90,
+    title: "把大方向切成真正能做的课题",
+    text: "导师提醒你：方向只是领域，课题才是每天要面对的实验路线。你需要在创新性、可行性、资源和毕业时间之间选一个具体切入点。",
+    projectBranch: true
+  },
   daily: {
     stage: "日常实验",
-    day: 45,
+    day: 180,
     title: "第一轮实验开始了",
     text: "你开始培养细胞、设计引物、跑 qPCR 和 WB。实验记录本第一页写得很认真，第二页开始出现咖啡渍。第一批结果出来了：有一点趋势，但还不足以让人放心。",
     random: true,
@@ -1696,7 +1799,7 @@ const nodes = {
   },
   experiment1: {
     stage: "日常实验",
-    day: 88,
+    day: 330,
     title: "实验室给你上了一课",
     text: "关键实验卡住了。WB 条带像抽象画，免疫荧光背景高得像星空，统计结果在显著性边缘徘徊。你听见离心机停下来的声音，像命运在倒计时。",
     random: true,
@@ -1705,25 +1808,64 @@ const nodes = {
         label: "重新优化条件，承认前面有漏洞",
         hint: "消耗时间和精力，但数据质量会明显改善。",
         change: { data: 14, progress: -4, energy: -8, mind: 2 },
-        next: "data"
+        next: "experiment2"
       },
       {
         label: "先把能用的数据整理出来",
         hint: "推进文章雏形，但后面可能被审稿人追问。",
         change: { progress: 10, writing: 5, data: -5 },
-        next: "data"
+        next: "experiment2"
       },
       {
         label: "找师兄师姐帮你看实验设计",
         hint: "获得经验加成，也暴露自己踩过的坑。",
         change: { data: 8, progress: 4, mind: 4, mentor: 2 },
+        next: "experiment2"
+      }
+    ]
+  },
+  experiment2: {
+    stage: "二轮实验",
+    day: 560,
+    title: "第二轮实验：把趋势变成证据链",
+    text: "第一轮实验给了你一些结果，也留下不少缺口。现在你要面对研究生中期最现实的问题：继续补机制，还是收缩故事，或者干脆换一条更稳的验证路线。",
+    random: true,
+    choices: [
+      {
+        label: "补机制验证，把故事做完整",
+        hint: "文章上限提高，但消耗很大。",
+        change: { novelty: 8, data: 8, progress: -6, energy: -10, mind: -5 },
+        next: "data"
+      },
+      {
+        label: "增加独立重复，先保证可重复性",
+        hint: "更稳，但看起来不够酷。",
+        change: { data: 12, integrity: 4, novelty: -2, progress: -5, energy: -7, mind: 2 },
+        next: "data"
+      },
+      {
+        label: "收缩结论，围绕最稳的发现写文章",
+        hint: "降低返修风险，但高分潜力下降。",
+        change: { writing: 8, data: 6, novelty: -4, mind: 4 },
+        next: "data"
+      },
+      {
+        label: "拉合作补齐短板技术",
+        hint: "资源和数据提升，但沟通成本与署名复杂度上升。",
+        change: { mentor: 5, data: 6, novelty: 3, progress: -4, energy: -5 },
+        next: "data"
+      },
+      {
+        label: "把不稳定结果先放一放，另找可发角度",
+        hint: "毕业概率提高，但可能错过真正有意思的发现。",
+        change: { progress: 7, writing: 5, novelty: -5, data: -2, mind: 2 },
         next: "data"
       }
     ]
   },
   data: {
     stage: "整理数据",
-    day: 140,
+    day: 720,
     title: "数据、人性和那个不好看的重复",
     text: "你打开了那个叫 final_final_真的最终版 的文件夹。图表逐渐成形，但总有几个点不听话：一个重复实验方向相反，一个 p 值卡在边缘，一个原始记录写得不够完整。你第一次清楚感到，整理数据不只是技术活，也是人性的考场。",
     choices: [
@@ -1773,7 +1915,7 @@ const nodes = {
   },
   writing: {
     stage: "写文章",
-    day: 190,
+    day: 870,
     title: "论文初稿和压力一起诞生",
     text: "你写完了 Results，又回头改 Introduction。导师批注里出现了熟悉的话：逻辑还可以再收紧。图 2 和图 4 像是在讲两个不同故事，共同作者还没回邮件，毕业时间却越来越近。你终于明白，写文章不是把实验堆上去，而是在压力里把证据链讲清楚。",
     random: true,
@@ -1818,7 +1960,7 @@ const nodes = {
   },
   submit: {
     stage: "投稿",
-    day: 230,
+    day: 990,
     title: "投稿前夜：冲刊、毕业和自我怀疑",
     text: "文章终于到了投稿前夜。你反复检查 cover letter、图片分辨率、补充材料、伦理声明和数据可用性。导师问要不要冲高一点，师兄提醒你毕业时间，邮箱里还有合作者没确认的署名顺序。现在的问题不是简单的冲还是稳，而是你能承受哪一种不确定性。",
     choices: [
@@ -1856,7 +1998,7 @@ const nodes = {
   },
   review_high: {
     stage: "外审",
-    day: 285,
+    day: 1070,
     title: "高压返修：审稿意见像一场暴雨",
     text: "编辑没有秒拒，文章进入外审。三位审稿人给了长长的意见：机制证据不足、体内实验需要加强、统计方法要解释、图片原始数据要补。导师说这是机会，身体说这是极限。返修倒计时开始，你感觉自己被要求重新读一遍研究生。",
     choices: [
@@ -1894,7 +2036,7 @@ const nodes = {
   },
   review_mid: {
     stage: "外审",
-    day: 275,
+    day: 1060,
     title: "Major revision：有机会，也有代价",
     text: "期刊送审了。审稿人认为故事有价值，但要求补充重复实验、重画部分图表、解释一个不一致结果，并补充原始数据说明。导师说这是好消息，说明有机会。你看着返修期限，突然理解了什么叫好消息里的压力。",
     choices: [
@@ -1932,7 +2074,7 @@ const nodes = {
   },
   review_safe: {
     stage: "投稿",
-    day: 260,
+    day: 1040,
     title: "小修不小：临门一脚也会让人失眠",
     text: "投稿后不久，编辑送审。审稿意见不算毁灭性，但格式、统计说明、图片原始数据、语言和少量补充实验都要改。你第一次觉得文章快出来了，也第一次担心临门一脚摔倒。",
     choices: [
@@ -1971,6 +2113,7 @@ let selectedPreset = "balanced";
 let mentorProfile = { ...defaultMentorProfile };
 let mentorAppliedStages = new Set();
 let selectedProject = null;
+let selectedProjectBranch = null;
 let projectAppliedStages = new Set();
 let skipRandomOnceForNode = null;
 let pressureAppliedStages = new Set();
@@ -2083,6 +2226,31 @@ function confirmMentorProfile() {
   applyChange(change);
   addLog(`${mentorSummary(mentorProfile)}（${describeChange(change)}）`);
   renderNode("direction");
+}
+
+function renderProjectBranch(node) {
+  currentNode = "projectBranch";
+  storyPanel.classList.remove("ending");
+  const profile = projectProfile();
+  stageName.textContent = node.stage;
+  dayCount.textContent = `第 ${node.day} 天`;
+  sceneTitle.textContent = node.title;
+  sceneText.textContent = profile
+    ? `${node.text} 你已经选择了「${profile.name}」，现在要决定具体分支。`
+    : node.text;
+  eventText.textContent = "";
+  choicesEl.innerHTML = "";
+
+  const branches = projectBranchOptions[selectedProject] ?? [];
+  branches.forEach((branch) => {
+    const button = document.createElement("button");
+    button.className = "choice";
+    button.type = "button";
+    button.innerHTML = `<strong>${branch.label}</strong><small>${branch.hint}</small>`;
+    button.addEventListener("click", () => choose({ ...branch, next: "daily" }));
+    choicesEl.appendChild(button);
+  });
+  drawStats();
 }
 
 function renderMentorBuilder(node) {
@@ -2256,6 +2424,7 @@ function achievementContext(endingTitle = "") {
   return {
     stats,
     selectedProject,
+    selectedProjectBranch,
     mentorProfile,
     visitedNodes,
     choiceHistory,
@@ -2348,7 +2517,7 @@ function mentorStageInfluence(nodeId) {
     change[key] = (change[key] ?? 0) + value;
   };
 
-  if (nodeId === "daily" || nodeId === "experiment1") {
+  if (nodeId === "daily" || nodeId === "experiment1" || nodeId === "experiment2") {
     if (mentorProfile.push >= 70) {
       add("progress", 4);
       add("energy", -4);
@@ -2407,7 +2576,9 @@ function projectProfile() {
 function projectStageInfluence(nodeId) {
   const profile = projectProfile();
   if (!profile || projectAppliedStages.has(nodeId)) return;
-  const change = profile.stageChanges?.[nodeId];
+  const change = nodeId === "experiment2"
+    ? secondRoundProfiles[selectedProject]?.change
+    : profile.stageChanges?.[nodeId];
   if (!change) return;
   projectAppliedStages.add(nodeId);
   applyChange(change);
@@ -2419,18 +2590,27 @@ function projectText(nodeId, fallbackText) {
   if (!profile) return fallbackText;
   if (nodeId === "daily") return profile.dailyText;
   if (nodeId === "experiment1") return profile.experimentText;
+  if (nodeId === "experiment2") return secondRoundProfiles[selectedProject]?.text ?? fallbackText;
   if (nodeId === "data") return profile.dataText;
   return fallbackText;
 }
 
 function projectChoices(nodeId, baseChoices) {
   const profile = projectProfile();
-  const projectChoice = profile?.choices?.[nodeId];
+  const projectChoice = nodeId === "experiment2"
+    ? secondRoundProfiles[selectedProject]?.choice
+    : profile?.choices?.[nodeId];
   if (!projectChoice) return baseChoices;
   return [
     {
       ...projectChoice,
-      next: nodeId === "data" ? "writing" : nodeId === "daily" ? "experiment1" : "data"
+      next: nodeId === "data"
+        ? "writing"
+        : nodeId === "daily"
+          ? "experiment1"
+          : nodeId === "experiment1"
+            ? "experiment2"
+            : "data"
     },
     ...baseChoices
   ];
@@ -2483,6 +2663,10 @@ function renderNode(id) {
     renderMentorBuilder(node);
     return;
   }
+  if (node.projectBranch) {
+    renderProjectBranch(node);
+    return;
+  }
   storyPanel.classList.remove("ending");
   stageName.textContent = node.stage;
   dayCount.textContent = `第 ${node.day} 天`;
@@ -2509,8 +2693,13 @@ function renderNode(id) {
 function choose(choice) {
   if (choice.project) {
     selectedProject = choice.project;
+    selectedProjectBranch = null;
     projectAppliedStages = new Set();
     addLog(`课题确定：${projectProfiles[choice.project].name}。`);
+  }
+  if (choice.branch) {
+    selectedProjectBranch = choice.branch;
+    addLog(`课题分支：${choice.branch}。`);
   }
   applyChange(choice.change);
   choiceHistory.push(choice.label);
@@ -2634,7 +2823,7 @@ function renderEnding() {
   saveAchievements(achievements);
   storyPanel.classList.add("ending");
   stageName.textContent = "结局";
-  dayCount.textContent = "第 300 天";
+  dayCount.textContent = "第 1095 天";
   sceneTitle.textContent = result.title;
   sceneText.textContent = result.text;
   eventText.textContent = `判定依据：${result.note}`;
@@ -2659,6 +2848,7 @@ function startGame() {
   mentorProfile = { ...defaultMentorProfile };
   mentorAppliedStages = new Set();
   selectedProject = null;
+  selectedProjectBranch = null;
   projectAppliedStages = new Set();
   pressureAppliedStages = new Set();
   visitedNodes = [];
