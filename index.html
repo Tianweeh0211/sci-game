@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
@@ -144,6 +144,8 @@ h1 {
   display: none !important;
 }
 
+.home-screen,
+.achievement-browser,
 .character-builder,
 .story-panel,
 .lab-notes {
@@ -157,6 +159,8 @@ h1 {
   box-shadow: var(--shadow);
 }
 
+.home-screen::before,
+.achievement-browser::before,
 .character-builder::before,
 .story-panel::before,
 .lab-notes::before {
@@ -169,11 +173,68 @@ h1 {
   background: rgba(200, 95, 89, .3);
 }
 
+.home-screen,
+.achievement-browser,
 .character-builder {
   display: grid;
   gap: 18px;
   margin: 16px 0;
   padding: clamp(20px, 3vw, 30px) clamp(18px, 3vw, 28px) clamp(18px, 3vw, 28px) 54px;
+}
+
+.home-screen {
+  grid-template-columns: minmax(0, 1fr) 250px;
+  align-items: center;
+  min-height: 360px;
+}
+
+.home-copy {
+  max-width: 760px;
+}
+
+.home-copy h2 {
+  margin-bottom: 12px;
+  font-size: clamp(30px, 5vw, 56px);
+  line-height: 1.1;
+}
+
+.home-copy p:last-child {
+  max-width: 660px;
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.home-actions {
+  display: grid;
+  gap: 14px;
+}
+
+.home-button {
+  min-height: 70px;
+  padding: 14px 18px;
+  border: 1px solid var(--line-strong);
+  border-left: 7px solid var(--gold);
+  border-radius: 7px;
+  background: #fff2b8;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 900;
+  text-align: left;
+  box-shadow: 0 10px 18px rgba(48, 38, 22, .1);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.home-button.primary {
+  border-left-color: var(--teal);
+  background: linear-gradient(180deg, #41ad9e, var(--teal));
+  color: #fff;
+}
+
+.home-button:hover {
+  transform: translateY(-2px) rotate(-.2deg);
 }
 
 .builder-copy {
@@ -605,10 +666,102 @@ h1 {
     #fff9dd;
 }
 
+.achievement-panel {
+  margin-bottom: 12px;
+  padding: 14px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 8px;
+  background: rgba(255, 253, 246, .75);
+}
+
+.achievement-panel h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.achievement-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.all-achievements {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 2px 0 4px;
+}
+
+.achievement-card {
+  position: relative;
+  min-height: 82px;
+  padding: 12px 12px 12px 44px;
+  border: 1px solid rgba(185, 159, 106, .9);
+  border-radius: 7px;
+  background: #fff2b8;
+  box-shadow: 0 8px 16px rgba(48, 38, 22, .08);
+}
+
+.achievement-card.unlocked {
+  background: #fff2b8;
+}
+
+.achievement-card.locked {
+  border-color: #cfc7b8;
+  background: #ebe6dc;
+  color: #7c7a73;
+  box-shadow: none;
+  filter: grayscale(.95);
+}
+
+.achievement-card::before {
+  content: "✓";
+  position: absolute;
+  top: 14px;
+  left: 12px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.achievement-card.locked::before {
+  content: "?";
+  background: #9b9a92;
+}
+
+.achievement-card.locked strong,
+.achievement-card.locked span {
+  color: #7c7a73;
+}
+
+.achievement-card strong,
+.achievement-card span {
+  display: block;
+}
+
+.achievement-card strong {
+  margin-bottom: 5px;
+}
+
+.achievement-card span,
+.achievement-empty {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.achievement-empty {
+  margin-bottom: 0;
+}
+
 .choice:focus-visible,
 .icon-button:focus-visible,
 .preset-card:focus-visible,
 .mentor-personality:focus-visible,
+.home-button:focus-visible,
 .start-button:focus-visible {
   outline: 3px solid rgba(45, 145, 132, .35);
   outline-offset: 2px;
@@ -629,6 +782,14 @@ h1 {
     grid-template-columns: 1fr;
   }
 
+  .achievement-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .all-achievements {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .lab-notes ol {
     max-height: 240px;
   }
@@ -645,6 +806,7 @@ h1 {
   }
 
   .dashboard,
+  .home-screen,
   .preset-grid,
   .trait-editor,
   .mentor-personality-grid {
@@ -660,11 +822,15 @@ h1 {
     width: 100%;
   }
 
+  .home-screen,
+  .achievement-browser,
   .character-builder,
   .story-panel {
     padding-left: 38px;
   }
 
+  .home-screen::before,
+  .achievement-browser::before,
   .character-builder::before,
   .story-panel::before {
     left: 24px;
@@ -723,6 +889,31 @@ h1 {
         <text x="58" y="230" fill="#3d4b46" font-size="22" font-family="Arial, sans-serif">Day 1: 入学报到</text>
         <text x="722" y="230" fill="#3d4b46" font-size="22" font-family="Arial, sans-serif">目标：发出 SCI</text>
       </svg>
+    </section>
+
+    <section class="home-screen" id="homeScreen" aria-label="首页">
+      <div class="home-copy">
+        <p class="kicker">科研生存模拟</p>
+        <h2>从入学到投稿，看看这次能不能发出来</h2>
+        <p>选择角色、导师和课题，在实验事故、数据伦理、写作压力和返修倒计时里，走出属于你的 SCI 结局。</p>
+      </div>
+      <div class="home-actions">
+        <button class="home-button primary" id="newGameBtn" type="button">开始游戏</button>
+        <button class="home-button" id="achievementBtn" type="button">成就系统</button>
+      </div>
+    </section>
+
+    <section class="achievement-browser hidden" id="achievementBrowser" aria-label="成就系统">
+      <div class="builder-copy">
+        <p class="kicker">Achievement Library</p>
+        <h2>成就系统</h2>
+        <p>已达成的成就会点亮，未达成的成就是灰色。成就保存在当前浏览器里。</p>
+      </div>
+      <div class="achievement-grid all-achievements" id="allAchievements"></div>
+      <div class="builder-footer">
+        <p id="achievementSummary">成就进度：0 / 0</p>
+        <button class="start-button" id="backHomeBtn" type="button">返回首页</button>
+      </div>
     </section>
 
     <section class="character-builder" id="characterBuilder" aria-label="角色创建">
@@ -1177,6 +1368,117 @@ const randomEvents = [
       { label: "换一个更合适的统计模型", hint: "可能更合理，但需要解释清楚。", change: { data: 4, writing: 4, energy: -2 } },
       { label: "把结论写得更克制", hint: "降低审稿风险，但故事冲击力下降。", change: { writing: 5, novelty: -2, mind: 3 } }
     ]
+  }
+];
+
+const achievementLibrary = [
+  {
+    id: "integrity_guardian",
+    name: "科研诚信守门员",
+    description: "在数据整理中坚持复核、保留异常或重做关键重复，最终科研诚信保持较高。",
+    condition: ({ stats, choiceHistory }) => stats.integrity >= 78 && choiceHistory.some((text) => text.includes("严格复核") || text.includes("保留异常值") || text.includes("重做关键重复") || text.includes("缩小结论"))
+  },
+  {
+    id: "three_am_sampler",
+    name: "凌晨三点取样人",
+    description: "选择昼夜节律课题，并认真执行多时间点取样。",
+    condition: ({ selectedProject, choiceHistory }) => selectedProject === "circadianMetabolism" && choiceHistory.some((text) => text.includes("多时间点取样"))
+  },
+  {
+    id: "co_first_author",
+    name: "共同一作达成",
+    description: "以合作方式完成论文，个人贡献得到认可。",
+    condition: ({ endingTitle }) => endingTitle.includes("共同一作")
+  },
+  {
+    id: "high_impact",
+    name: "高分文章捕手",
+    description: "最终达成高分 SCI 发表。",
+    condition: ({ endingTitle }) => endingTitle.includes("高分 SCI")
+  },
+  {
+    id: "stable_graduate",
+    name: "稳稳毕业人",
+    description: "没有传奇逆袭，但稳稳发出普通 SCI 并达到毕业要求。",
+    condition: ({ endingTitle }) => endingTitle.includes("稳稳毕业")
+  },
+  {
+    id: "comeback",
+    name: "逆风翻盘",
+    description: "前期不顺，但抓住关键发现实现意外逆袭。",
+    condition: ({ endingTitle }) => endingTitle.includes("意外逆袭")
+  },
+  {
+    id: "desk_to_resubmit",
+    name: "转投也算赢",
+    description: "高分期刊受挫后及时调整策略，转投成功。",
+    condition: ({ endingTitle }) => endingTitle.includes("转投成功")
+  },
+  {
+    id: "survive_revision",
+    name: "返修幸存者",
+    description: "经历返修压力后仍保持可发表状态。",
+    condition: ({ visitedNodes, stats }) => visitedNodes.some((id) => id.startsWith("review_")) && stats.mind >= 25 && stats.energy >= 20
+  },
+  {
+    id: "sample_rescuer",
+    name: "样本救火队",
+    description: "遇到样本缺失危机并做出应对。",
+    condition: ({ randomEventHistory }) => randomEventHistory.includes("样本突然少了一批")
+  },
+  {
+    id: "cell_contamination_control",
+    name: "污染处理专家",
+    description: "遇到细胞污染警报并完成应对。",
+    condition: ({ randomEventHistory }) => randomEventHistory.includes("细胞污染警报")
+  },
+  {
+    id: "protocol_whisperer",
+    name: "Protocol 细节大师",
+    description: "从同门经验中抓住 protocol 里的关键细节。",
+    condition: ({ randomEventHistory }) => randomEventHistory.includes("同门抢到了关键经验")
+  },
+  {
+    id: "mentor_network",
+    name: "导师资源调度员",
+    description: "选择高资源导师环境，并在后期获得资源帮助。",
+    condition: ({ mentorProfile, visitedNodes }) => mentorProfile.resources >= 75 && visitedNodes.some((id) => id === "submit" || id.startsWith("review_"))
+  },
+  {
+    id: "free_topic",
+    name: "自命题勇士",
+    description: "选择自己提出课题，并推进到写作之后。",
+    condition: ({ selectedProject, visitedNodes }) => selectedProject === "selfDesigned" && visitedNodes.includes("writing")
+  },
+  {
+    id: "record_keeper",
+    name: "实验记录本成精",
+    description: "在日常实验中主动补实验记录和样本台账。",
+    condition: ({ choiceHistory }) => choiceHistory.some((text) => text.includes("实验记录") || text.includes("样本台账"))
+  },
+  {
+    id: "pressure_manager",
+    name: "压力管理大师",
+    description: "经历写作、投稿和返修压力后，心态仍保持较高。",
+    condition: ({ visitedNodes, stats }) => visitedNodes.includes("writing") && visitedNodes.includes("submit") && visitedNodes.some((id) => id.startsWith("review_")) && stats.mind >= 55
+  },
+  {
+    id: "body_first",
+    name: "先活下来",
+    description: "在低电量或高压选择中主动保护精力和心态。",
+    condition: ({ choiceHistory, randomEventHistory, stats }) => (randomEventHistory.includes("连续熬夜后的低电量") || choiceHistory.some((text) => text.includes("休息"))) && stats.energy >= 35
+  },
+  {
+    id: "beautiful_crack",
+    name: "漂亮图警示录",
+    description: "触发科研诚信反思结局。",
+    condition: ({ endingTitle }) => endingTitle.includes("漂亮图背后的裂缝")
+  },
+  {
+    id: "new_path",
+    name: "人生不止 SCI",
+    description: "未能发表 SCI，但发现自己更适合的新道路。",
+    condition: ({ endingTitle }) => endingTitle.includes("转向新道路")
   }
 ];
 
@@ -1672,6 +1974,11 @@ let selectedProject = null;
 let projectAppliedStages = new Set();
 let skipRandomOnceForNode = null;
 let pressureAppliedStages = new Set();
+let visitedNodes = [];
+let choiceHistory = [];
+let randomEventHistory = [];
+let unlockedAchievements = [];
+const achievementStorageKey = "sciGameAchievements";
 
 const sceneTitle = document.getElementById("sceneTitle");
 const sceneText = document.getElementById("sceneText");
@@ -1683,6 +1990,13 @@ const logList = document.getElementById("logList");
 const storyPanel = document.querySelector(".story-panel");
 const restartBtn = document.getElementById("restartBtn");
 const startBtn = document.getElementById("startBtn");
+const homeScreen = document.getElementById("homeScreen");
+const newGameBtn = document.getElementById("newGameBtn");
+const achievementBtn = document.getElementById("achievementBtn");
+const achievementBrowser = document.getElementById("achievementBrowser");
+const allAchievements = document.getElementById("allAchievements");
+const backHomeBtn = document.getElementById("backHomeBtn");
+const achievementSummary = document.getElementById("achievementSummary");
 const characterBuilder = document.getElementById("characterBuilder");
 const dashboard = document.querySelector(".dashboard");
 const playArea = document.querySelector(".play-area");
@@ -1859,7 +2173,61 @@ function markCustomCharacter() {
   profileSummary.textContent = `自定义角色：精力 ${customStats.energy}，心态 ${customStats.mind}，运气 ${customStats.luck}。`;
 }
 
+function savedAchievementIds() {
+  try {
+    return new Set(JSON.parse(localStorage.getItem(achievementStorageKey) || "[]"));
+  } catch (error) {
+    return new Set();
+  }
+}
+
+function saveAchievements(achievements) {
+  const savedIds = savedAchievementIds();
+  achievements.forEach((achievement) => savedIds.add(achievement.id));
+  try {
+    localStorage.setItem(achievementStorageKey, JSON.stringify([...savedIds]));
+  } catch (error) {
+    return;
+  }
+}
+
+function renderAchievementBrowser() {
+  const savedIds = savedAchievementIds();
+  const unlockedCount = achievementLibrary.filter((achievement) => savedIds.has(achievement.id)).length;
+  allAchievements.innerHTML = achievementLibrary.map((achievement) => {
+    const unlocked = savedIds.has(achievement.id);
+    return `
+      <article class="achievement-card ${unlocked ? "unlocked" : "locked"}">
+        <strong>${achievement.name}</strong>
+        <span>${achievement.description}</span>
+      </article>
+    `;
+  }).join("");
+  achievementSummary.textContent = `成就进度：${unlockedCount} / ${achievementLibrary.length}`;
+}
+
+function showHome() {
+  homeScreen.classList.remove("hidden");
+  achievementBrowser.classList.add("hidden");
+  characterBuilder.classList.add("hidden");
+  dashboard.classList.add("hidden");
+  playArea.classList.add("hidden");
+  storyPanel.classList.remove("ending");
+}
+
+function showAchievementBrowser() {
+  renderAchievementBrowser();
+  homeScreen.classList.add("hidden");
+  achievementBrowser.classList.remove("hidden");
+  characterBuilder.classList.add("hidden");
+  dashboard.classList.add("hidden");
+  playArea.classList.add("hidden");
+  storyPanel.classList.remove("ending");
+}
+
 function showCharacterBuilder() {
+  homeScreen.classList.add("hidden");
+  achievementBrowser.classList.add("hidden");
   characterBuilder.classList.remove("hidden");
   dashboard.classList.add("hidden");
   playArea.classList.add("hidden");
@@ -1871,6 +2239,8 @@ function showCharacterBuilder() {
 }
 
 function showGame() {
+  homeScreen.classList.add("hidden");
+  achievementBrowser.classList.add("hidden");
   characterBuilder.classList.add("hidden");
   dashboard.classList.remove("hidden");
   playArea.classList.remove("hidden");
@@ -1880,6 +2250,49 @@ function addLog(text) {
   logEntries.unshift(text);
   logEntries = logEntries.slice(0, 9);
   logList.innerHTML = logEntries.map((entry) => `<li>${entry}</li>`).join("");
+}
+
+function achievementContext(endingTitle = "") {
+  return {
+    stats,
+    selectedProject,
+    mentorProfile,
+    visitedNodes,
+    choiceHistory,
+    randomEventHistory,
+    endingTitle
+  };
+}
+
+function evaluateAchievements(endingTitle = "") {
+  const context = achievementContext(endingTitle);
+  unlockedAchievements = achievementLibrary.filter((achievement) => achievement.condition(context));
+  return unlockedAchievements;
+}
+
+function achievementMarkup(achievements) {
+  if (!achievements.length) {
+    return `
+      <section class="achievement-panel">
+        <h3>本局成就</h3>
+        <p class="achievement-empty">本局没有解锁新成就。科研嘛，有时候连成就系统也要返修。</p>
+      </section>
+    `;
+  }
+
+  return `
+    <section class="achievement-panel">
+      <h3>本局成就</h3>
+      <div class="achievement-grid">
+        ${achievements.map((achievement) => `
+          <article class="achievement-card unlocked">
+            <strong>${achievement.name}</strong>
+            <span>${achievement.description}</span>
+          </article>
+        `).join("")}
+      </div>
+    </section>
+  `;
 }
 
 function renderRandomEvent(event, returnNodeId) {
@@ -1897,6 +2310,8 @@ function renderRandomEvent(event, returnNodeId) {
     button.innerHTML = `<strong>${choice.label}</strong><small>${choice.hint}</small>`;
     button.addEventListener("click", () => {
       applyChange(choice.change);
+      choiceHistory.push(choice.label);
+      randomEventHistory.push(event.title);
       addLog(`随机事件「${event.title}」：${choice.label}（${describeChange(choice.change)}）`);
       skipRandomOnceForNode = returnNodeId;
       renderNode(returnNodeId);
@@ -2062,6 +2477,7 @@ function renderNode(id) {
   }
 
   currentNode = id;
+  if (!visitedNodes.includes(id)) visitedNodes.push(id);
   const node = nodes[id];
   if (node.mentorBuilder) {
     renderMentorBuilder(node);
@@ -2097,6 +2513,7 @@ function choose(choice) {
     addLog(`课题确定：${projectProfiles[choice.project].name}。`);
   }
   applyChange(choice.change);
+  choiceHistory.push(choice.label);
   addLog(`${choice.label}（${describeChange(choice.change)}）`);
   renderNode(choice.next);
 }
@@ -2213,6 +2630,8 @@ function endingResult() {
 
 function renderEnding() {
   const result = endingResult();
+  const achievements = evaluateAchievements(result.title);
+  saveAchievements(achievements);
   storyPanel.classList.add("ending");
   stageName.textContent = "结局";
   dayCount.textContent = "第 300 天";
@@ -2220,12 +2639,13 @@ function renderEnding() {
   sceneText.textContent = result.text;
   eventText.textContent = `判定依据：${result.note}`;
   choicesEl.innerHTML = "";
+  choicesEl.insertAdjacentHTML("beforeend", achievementMarkup(achievements));
 
   const restart = document.createElement("button");
   restart.className = "choice";
   restart.type = "button";
   restart.innerHTML = "<strong>再来一年</strong><small>重新入学，看看这次能不能更顺利地发出来。</small>";
-  restart.addEventListener("click", showCharacterBuilder);
+  restart.addEventListener("click", showHome);
   choicesEl.appendChild(restart);
 
   addLog(`${result.title}：${result.note}`);
@@ -2241,6 +2661,10 @@ function startGame() {
   selectedProject = null;
   projectAppliedStages = new Set();
   pressureAppliedStages = new Set();
+  visitedNodes = [];
+  choiceHistory = [];
+  randomEventHistory = [];
+  unlockedAchievements = [];
   currentNode = "start";
   logEntries = [
     `${presetName}入学：精力 ${stats.energy}，心态 ${stats.mind}，运气 ${stats.luck}。`,
@@ -2264,10 +2688,13 @@ Object.values(traitInputs).forEach((input) => {
   });
 });
 
-restartBtn.addEventListener("click", showCharacterBuilder);
+restartBtn.addEventListener("click", showHome);
+newGameBtn.addEventListener("click", showCharacterBuilder);
+achievementBtn.addEventListener("click", showAchievementBrowser);
+backHomeBtn.addEventListener("click", showHome);
 startBtn.addEventListener("click", startGame);
 applyPreset("balanced");
-showCharacterBuilder();
+showHome();
 
 </script>
 </body>
